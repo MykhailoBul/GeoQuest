@@ -1,0 +1,132 @@
+body{
+    font-family: Arial;
+    background:#071833;
+    color:rgb(0, 145, 255);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0;
+    height: 100vh;
+    }
+    
+.container{
+    text-align:center;
+    width:600px;
+}
+    
+.title{
+    font-size:40px;
+}
+    
+.subtitle{
+    color:#00d1b2;
+    margin-bottom:20px;
+}
+    
+.card{
+    background:#1c2b4a;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+    height: 800px;
+}
+    
+input{
+    padding:10px;
+    border-radius:6px;
+    border-color: #00aaff;
+    margin:5px;
+    width:90%;
+    background-color: #263961;
+    color: rgb(0, 145, 255);
+    font-size: 18px;
+}
+    
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    margin:5px;
+    cursor:pointer;
+}
+#addPlayer{
+    width: 94%;
+    background-color: #263961;
+    color: rgb(0, 145, 255);
+    font-size: 18px;
+}
+#playerList{
+    font-size: 18px
+}
+.category{
+    background:#243c5a;
+    color:white;
+    padding: 35px;
+    font-size: 18px;
+}
+    
+.category.active{
+    background:#00b894;
+}
+    
+.difficulty button{
+    background:#5a3a3a;
+    color:white;
+    padding: 25px 35px;
+    font-size: 18px;
+}
+    
+.difficulty button.active{
+    background:orange;
+}
+    
+.rounds button{
+    background:#5a3a3a;
+    color:white;
+    padding: 20px 35px;
+    font-size: 18px;
+}
+    
+.rounds button.active{
+    background:orange;
+}
+    
+.startBtn{
+    margin-top:20px;
+    width:100%;
+    background:linear-gradient(90deg,#00aaff,#00ffae);
+    color:white;
+    font-size:18px;
+    height: 60px;
+}
+    
+#answers button{
+    display:block;
+    width:100%;
+    margin:10px 0;
+    background:#294766;
+    color:white;
+}
+    
+.hidden{
+    display:none;
+}
+
+button:hover{
+    transform:scale(1.05);
+    transition:0.2s;
+}
+
+.correct{
+    background:#00b894 !important;
+}
+
+.wrong{
+    background:#d63031 !important;
+}
+
+.playerTurn{
+    margin-top:10px;
+    font-size:18px;
+    color:#00ffae;
+}
