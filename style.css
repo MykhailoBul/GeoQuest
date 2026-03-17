@@ -130,3 +130,114 @@ button:hover{
     font-size:18px;
     color:#00ffae;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        width: 95vw;
+        max-width: 600px;
+    }
+    
+    .title {
+        font-size: 32px;
+    }
+    
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .card {
+        padding: 20px;
+        height: auto;
+        min-height: 500px;
+    }
+    
+    .category {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0;
+        font-size: 16px;
+    }
+    
+    .difficulty button, .rounds button {
+        padding: 12px 20px;
+        font-size: 16px;
+        margin: 3px;
+    }
+    
+    input {
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    button {
+        padding: 12px 18px;
+        font-size: 16px;
+    }
+    
+    .startBtn {
+        height: 50px;
+        font-size: 16px;
+    }
+    
+    #answers button {
+        margin: 8px 0;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 28px;
+    }
+    
+    .card {
+        padding: 15px;
+        min-height: 400px;
+    }
+    
+    .category {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .difficulty, .rounds {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .difficulty button, .rounds button {
+        flex: 1 1 45%;
+        min-width: 100px;
+        margin: 2px;
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    input {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    
+    .startBtn {
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    #answers button {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .playerTurn {
+        font-size: 16px;
+    }
+}
