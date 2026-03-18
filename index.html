@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
     <body>
+        <div id="floatingObjects"></div>
         <div class="container">
             <h1 class="title">🌍GeoQuest</h1>
             <p class="subtitle">Explore the world through geography!</p>
@@ -16,8 +17,7 @@
                 <h3>Players / Teams</h3>
                 <input id="playerName" placeholder="Player name">
                 <button id="addPlayer" onclick="addPlayer()">+ Add Player</button>
-
-                <ul id="playerList"></ul>
+                <ul id="playerList" class="hidden"></ul>
 
                 <h3>Select Categories</h3>
 
@@ -46,7 +46,7 @@
                     <button onclick="setRounds(20)">20</button>
                 </div>
 
-            <button class="startBtn" onclick="startGame()">Start Adventure</button>
+            <button class="startBtn" onclick="startGame()">Start Game</button>
 
             </div>
 
@@ -61,7 +61,7 @@
             </div>
             <div id="result" class="card hidden">
                 <h2>Game Over</h2>
-                <p>Your Score: <span id="finalScore"></span></p>
+                <p><span id="finalScore"></span></p>
                 <button onclick="restartGame()">Play Again</button>
             </div>
         </div>

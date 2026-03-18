@@ -5,6 +5,11 @@ let currentRound=0
 let totalRounds=5
 let difficulty="easy"
 let selectedCategories=["Countries"]
+let totalQuestions = 0
+let answered = false
+
+const icons = ["🌍","🗽","🗿","🗼","🕌","🛕","⛰️","🌋"]
+const objects = []
 
 const questions={
 
@@ -1575,47 +1580,97 @@ correct:1
 }
 
 }
+function createFloatingObjects(){
+
+    const container = document.getElementById("floatingObjects")
+
+    for(let i=0;i<8;i++){
+
+        const el = document.createElement("div")
+        el.classList.add("floating")
+
+        el.textContent = icons[Math.floor(Math.random()*icons.length)]
+
+        const obj = {
+            el: el,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            dx: (Math.random()*2+1) * (Math.random()<0.5?-1:1),
+            dy: (Math.random()*2+1) * (Math.random()<0.5?-1:1)
+        }
+
+        el.style.left = obj.x + "px"
+        el.style.top = obj.y + "px"
+
+        container.appendChild(el)
+        objects.push(obj)
+        el.style.fontSize = (50 + Math.random()*80) + "px"
+    }
+}
+
+function animateObjects(){
+
+    objects.forEach(obj=>{
+
+        obj.x += obj.dx
+        obj.y += obj.dy
+
+        if(obj.x <= 0 || obj.x >= window.innerWidth - 50){
+            obj.dx *= -1
+        }
+
+        if(obj.y <= 0 || obj.y >= window.innerHeight - 50){
+            obj.dy *= -1
+        }
+
+        obj.el.style.left = obj.x + "px"
+        obj.el.style.top = obj.y + "px"
+    })
+    requestAnimationFrame(animateObjects)
+}
+
+createFloatingObjects()
+animateObjects()
 
 function addPlayer(){
 
-const input=document.getElementById("playerName")
-const name=input.value.trim()
+    const input = document.getElementById("playerName")
+    const name = input.value.trim()
 
-if(name==="")return
+    if(name === "") return
 
-players.push(name)
-scores[name]=0
+    players.push(name)
+    scores[name] = 0
 
-const li=document.createElement("li")
-li.textContent=name
+    const li = document.createElement("li")
+    li.textContent = name
 
-document.getElementById("playerList").appendChild(li)
+    const playerList = document.getElementById("playerList")
+    playerList.appendChild(li)
+    playerList.classList.remove("hidden")
 
-input.value=""
-
+    input.value = ""
 }
 
-function setDifficulty(level){
+function setDifficulty(level, e){
+    difficulty = level
 
-difficulty=level
+    document.querySelectorAll(".difficulty button").forEach(btn=>{
+        btn.classList.remove("active")
+    })
 
-document.querySelectorAll(".difficulty button").forEach(btn=>{
-btn.classList.remove("active")
-})
-
-event.target.classList.add("active")
-
+    e.target.classList.add("active")
 }
 
 function setRounds(n){
 
-totalRounds=n
+    totalRounds=n
 
-document.querySelectorAll(".rounds button").forEach(btn=>{
-btn.classList.remove("active")
-})
+    document.querySelectorAll(".rounds button").forEach(btn=>{
+    btn.classList.remove("active")
+    })
 
-event.target.classList.add("active")
+    event.target.classList.add("active")
 
 }
 
@@ -1642,22 +1697,23 @@ selectedCategories.push(cat)
 })
 
 function startGame(){
+    totalQuestions = players.length * totalRounds
+    currentRound = 0
 
-if(players.length===0){
+    if(players.length===0){
 
-alert("Add at least one player")
-return
+    alert("Add at least one player")
+    return
+    }
 
-}
+    document.getElementById("menu").classList.add("hidden")
+    document.getElementById("game").classList.remove("hidden")
 
-document.getElementById("menu").classList.add("hidden")
-document.getElementById("game").classList.remove("hidden")
+    showPlayerTurn()
 
-showPlayerTurn()
+    nextQuestion()
 
-nextQuestion()
-
-updateScores()
+    updateScores()
 
 }
 
@@ -1706,25 +1762,73 @@ nextQuestion()
 
 function nextQuestion(){
 
-document.getElementById("feedback").textContent = ""
+    answered = false
+    document.getElementById("feedback").textContent = ""
 
-if(currentRound>=totalRounds){
+    if(currentRound >= totalQuestions){
+        endGame()
+        return
+    }
 
-endGame()
-return
+    currentRound++
 
-}
+    let category = selectedCategories[
+        Math.floor(Math.random() * selectedCategories.length)
+    ]
 
-currentRound++
+    let categoryData = questions[category]
 
-let category=selectedCategories[Math.floor(Math.random()*selectedCategories.length)]
+    if (!categoryData || !categoryData[difficulty]) {
+        alert("No questions found!")
+        return
+    }
 
-let catQuestions = questions[category];
-let q;
-if (Array.isArray(catQuestions)) {
-q = catQuestions[Math.floor(Math.random()*catQuestions.length)];
-} else {
-q = catQuestions[difficulty][Math.floor(Math.random()*catQuestions[difficulty].length)];
+    let q = categoryData[difficulty][
+        Math.floor(Math.random() * categoryData[difficulty].length)
+    ]
+
+    document.getElementById("question").textContent = q.question
+
+    const answersDiv = document.getElementById("answers")
+    answersDiv.innerHTML = ""
+
+    q.answers.forEach((ans,index)=>{
+
+        const btn = document.createElement("button")
+        btn.textContent = ans
+
+        btn.onclick = () => {
+
+            if(answered) return
+            answered = true
+            const allButtons = document.querySelectorAll("#answers button")
+            allButtons.forEach(b => b.disabled = true)
+
+            if(index === q.correct){
+
+                btn.classList.add("correct")
+
+                let player = players[currentPlayer]
+                scores[player]++
+
+                updateScores()
+
+                document.getElementById("feedback").textContent = "Correct!"
+
+            }else{
+
+                btn.classList.add("wrong")
+                allButtons[q.correct].classList.add("correct")
+
+                document.getElementById("feedback").textContent =
+                    "Wrong! Correct: " + q.answers[q.correct]
+            }
+
+            document.getElementById("nextBtn").classList.remove("hidden")
+        }
+
+        answersDiv.appendChild(btn)
+    })
 }
 
 document.getElementById("question").textContent=q.question
@@ -1766,21 +1870,43 @@ answersDiv.appendChild(btn)
 
 })
 
-}
-
 function endGame(){
+    document.getElementById("game").classList.add("hidden")
+    document.getElementById("result").classList.remove("hidden")
+    let sortedPlayers = Object.entries(scores)
+    sortedPlayers.sort((a,b)=>b[1]-a[1])
 
-document.getElementById("game").classList.add("hidden")
-document.getElementById("result").classList.remove("hidden")
+    let html = "<h3 class='leaderTitle'>🏆 Leaderboard</h3>"
+    html += "<div class='leaderboard'>"
 
-let results=""
+    sortedPlayers.forEach((player, index)=>{
 
-players.forEach(p=>{
-results+=p+" : "+scores[p]+"<br>"
-})
+        let className=""
+        let medal=""
 
-document.getElementById("finalScore").innerHTML=results
+        if(index===0){
+            className="first"
+            medal="🥇"
+        }else if(index===1){
+            className="second"
+            medal="🥈"
+        }else if(index===2){
+            className="third"
+            medal="🥉"
+        }
 
+        html += `
+        <div class="playerRow ${className}">
+            <span>
+                <span class="medal">${medal}</span>
+                ${player[0]}
+            </span>
+            <strong>${player[1]} pts</strong>
+        </div>
+        `
+    })
+    html += "</div>"
+    document.getElementById("finalScore").innerHTML = html
 }
 
 function restartGame(){
