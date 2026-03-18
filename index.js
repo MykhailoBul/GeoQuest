@@ -7,6 +7,7 @@ let difficulty="easy"
 let selectedCategories=["Countries"]
 let totalQuestions = 0
 let answered = false
+let usedQuestions = []
 
 const icons = ["🌍","🗽","🗿","🗼","🕌","🛕","⛰️","🌋"]
 const objects = []
@@ -1783,9 +1784,19 @@ function nextQuestion(){
         return
     }
 
-    let q = categoryData[difficulty][
-        Math.floor(Math.random() * categoryData[difficulty].length)
+    let availableQuestions = categoryData[difficulty].filter(q =>
+        !usedQuestions.includes(q)
+    )
+    
+    if(availableQuestions.length === 0){
+        endGame()
+        return
+    }
+    
+    let q = availableQuestions[
+        Math.floor(Math.random() * availableQuestions.length)
     ]
+    usedQuestions.push(q)
 
     document.getElementById("question").textContent = q.question
 
@@ -1831,7 +1842,15 @@ function nextQuestion(){
     })
 }
 
-document.getElementById("question").textContent=q.question
+let allQuestionsPool = []
+
+selectedCategories.forEach(cat=>{
+    allQuestionsPool = allQuestionsPool.concat(questions[cat][difficulty])
+})
+
+allQuestionsPool.sort(()=>Math.random()-0.5)
+
+let q = allQuestionsPool[currentRound]
 
 const answersDiv=document.getElementById("answers")
 answersDiv.innerHTML=""
