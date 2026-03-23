@@ -32,18 +32,18 @@
                 <h3>Difficulty Level</h3>
 
                 <div class="difficulty">
-                    <button onclick="setDifficulty('easy')" class="active">Easy</button>
-                    <button onclick="setDifficulty('medium')">Medium</button>
-                    <button onclick="setDifficulty('hard')">Hard</button>
+                    <button onclick="setDifficulty('easy', event)" class="active">Easy</button>
+                    <button onclick="setDifficulty('medium', event)">Medium</button>
+                    <button onclick="setDifficulty('hard', event)">Hard</button>
                 </div>
 
                 <h3>Number of Rounds</h3>
 
                 <div class="rounds">
-                    <button onclick="setRounds(5)" class="active">5</button>
-                    <button onclick="setRounds(10)">10</button>
-                    <button onclick="setRounds(15)">15</button>
-                    <button onclick="setRounds(20)">20</button>
+                    <button onclick="setRounds(5, event)" class="active">5</button>
+                    <button onclick="setRounds(10, event)">10</button>
+                    <button onclick="setRounds(15, event)">15</button>
+                    <button onclick="setRounds(20, event)">20</button>
                 </div>
 
             <button class="startBtn" onclick="startGame()">Start Game</button>

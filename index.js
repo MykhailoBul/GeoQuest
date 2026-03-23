@@ -1663,15 +1663,15 @@ function setDifficulty(level, e){
     e.target.classList.add("active")
 }
 
-function setRounds(n){
+function setRounds(n, e){
 
     totalRounds=n
 
     document.querySelectorAll(".rounds button").forEach(btn=>{
-    btn.classList.remove("active")
+        btn.classList.remove("active")
     })
 
-    event.target.classList.add("active")
+    e.target.classList.add("active")
 
 }
 
@@ -1841,53 +1841,6 @@ function nextQuestion(){
         answersDiv.appendChild(btn)
     })
 }
-
-let allQuestionsPool = []
-
-selectedCategories.forEach(cat=>{
-    allQuestionsPool = allQuestionsPool.concat(questions[cat][difficulty])
-})
-
-allQuestionsPool.sort(()=>Math.random()-0.5)
-
-let q = allQuestionsPool[currentRound]
-
-const answersDiv=document.getElementById("answers")
-answersDiv.innerHTML=""
-
-q.answers.forEach((ans,index)=>{
-
-const btn=document.createElement("button")
-btn.textContent=ans
-
-btn.onclick=()=>{
-
-if(index===q.correct){
-
-btn.classList.add("correct")
-
-let player=players[currentPlayer]
-scores[player]++
-
-updateScores()
-
-document.getElementById("feedback").textContent = "Correct!"
-
-}else{
-
-btn.classList.add("wrong")
-
-document.getElementById("feedback").textContent = "Wrong! The correct answer is: " + q.answers[q.correct]
-
-}
-
-document.getElementById("nextBtn").classList.remove("hidden")
-
-}
-
-answersDiv.appendChild(btn)
-
-})
 
 function endGame(){
     document.getElementById("game").classList.add("hidden")
